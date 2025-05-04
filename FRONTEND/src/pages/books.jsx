@@ -1,20 +1,31 @@
 import { useSelector } from "react-redux";
 import BookCard from "../components/bookcard";
-import Filterpage from "../pages/filters";
+import Filterpage from "../components/filters";
 import { useState } from "react";
 import { FaFilter } from "react-icons/fa";
-import {addSearchItem} from '../features/filterSlice';
 import {useDispatch} from 'react-redux'
 import useFilter from '../hooks/filterhook';
+import {fetchBookData} from "../features/bookSlice";
+import { useEffect } from "react";
+import Loader from '../components/loader'
+import Searchbar from '../components/searchbar';
 const Books = () => {
   const dispatch=useDispatch();
-  const searchItem = useSelector((state) => state.filter.searchItem);
+  const {books,error,loading}=useSelector((state)=>state.books);
   const [showSidebar, setShowSidebar] = useState(false);
-  const handleonchange = (e) => {
-    const searchitem=e.target.value;
-    dispatch(addSearchItem(searchitem));
+  const filters=useSelector((state)=>state.filter);
+  
+  const filterBooks= useFilter(books);
+  const displayBooks= filters?filterBooks:books;
+  useEffect(() => {
+    dispatch(fetchBookData());
+  }, []);
+  if(loading){
+    return <Loader/>;
   }
-  const filteredbooks=useFilter();
+  if(error){
+    return <h1>Error : {error}</h1>;
+  }
   return (
     <div className="flex flex-col lg:flex-row w-full">
       <button
@@ -32,22 +43,14 @@ const Books = () => {
         <Filterpage />
       </div>
       <div className="flex flex-col w-full overflow-y-auto no-scrollbar">
-        <div className="w-full">
-          <input
-            type="text"
-            className="bg-blue-100 w-full border rounded-full mt-5 h-12 pl-6"
-            placeholder="Search here............."
-            value={searchItem}
-            onChange={handleonchange}
-          />
-        </div>
-        <div className="flex flex-wrap gap-6 p-4 bg-gray-50">
-          {filteredbooks.map((book, index) => (
+        <Searchbar/>
+        <div className="flex flex-wrap justify-between gap-6 p-4 bg-gray-50">
+          {displayBooks.map((book, index) => (
             <div key={index} className="h-64 md:h-80 w-[40%] md:w-[30%] lg:w-[20%] xl:w-[15%]">
               <BookCard key={index} book={book} />
             </div>
           ))}
-          {filteredbooks.length === 0 && (
+          {displayBooks.length === 0 && (
             <p className="text-center text-gray-500 w-full">
               No books found matching the selected filters.
             </p>

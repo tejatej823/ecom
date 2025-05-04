@@ -1,22 +1,45 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { addbook } from "../features/cartSlice";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import axios from 'axios';
+import Loader from "../components/loader"
 const Bookdetails = () => {
   const { id } = useParams();
-  const books = useSelector((state) => state.books);
-  const book = books.find((p) => p.id === parseInt(id));
   const dispatch = useDispatch();
-  if (!book) return <p className="text-center text-red-500">Book not found!</p>;
+  const [book,setBook]=useState(null);
+  const [error,setError]=useState(null);
+  const [loading,setLoading]=useState(true);
   const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/books/${id}`)
+      .then((res) => {
+        setBook(res.data);
+        setLoading(false);})
+      .catch((err) => {
+        setError("Book not found");
+        setLoading(false);
+      });
+  }, [id]);
+
+  if(error){
+    return <h1>ERROR:{error}</h1>
+  }
+  if(loading){
+    return <Loader/>;
+  }
+  if (!book) return <p className="text-center text-red-500">Book not found!</p>;
+
   const handleOnChange = (e) => {
     setQuantity(Math.max(1, e.target.value)); 
   }
   const handleAdd = () => {
     dispatch(addbook({ book, quantity }));
-    toast.success(`${book.title} added to the cart successfully!`, {
+    toast.success(`${book.bookName} added to the cart successfully!`, {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: true,
@@ -29,13 +52,13 @@ const Bookdetails = () => {
       <div className="flex flex-col lg:flex-row justify-between gap-8">
         <div className="flex-1 flex justify-center">
           <img
-            src={book.imageUrl}
-            alt={book.title}
+            src={book.imageURL}
+            alt={book.bookName}
             className="w-full h-54 md:h-96 rounded-lg shadow-lg cover"
           />
         </div>
         <div className="flex-1 space-y-4">
-          <h1 className="text-3xl font-bold text-gray-800">{book.title}</h1>
+          <h1 className="text-3xl font-bold text-gray-800">{book.bookName}</h1>
           <p className="text-lg text-gray-700">
             <span className="font-semibold">Author:</span> {book.author}
           </p>

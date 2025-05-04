@@ -14,7 +14,7 @@ const Bookcard = ({ book }) => {
     >
       <div className="h-3/5 w-[100%]">
         <img
-          src={book.imageUrl}
+          src={book.imageURL}
           alt={book.title}
           className="w-full h-full object-cover rounded-t"
         />
@@ -23,7 +23,7 @@ const Bookcard = ({ book }) => {
       {/* Content section taking 30% of the card height */}
       <div className="h-2/5 p-3 flex flex-col justify-around">
         <h2 className="text-lg font-bold overflow-hidden whitespace-nowrap text-ellipsis">
-          {book.title}
+          {book.bookName}
         </h2>
 
         <p className="text-gray-700 text-sm overflow-hidden whitespace-nowrap text-ellipsis">

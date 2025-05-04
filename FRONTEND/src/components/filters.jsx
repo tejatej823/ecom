@@ -11,7 +11,7 @@ const Filterpage = () => {
   ];
   const filters = useSelector((state) => state.filter);
   console.log(filters);
-  const books = useSelector((state) => state.books);
+  const {books,error,loading} = useSelector((state) => state.books);
   const genre = books.map((book) => book.genre);
   const unique_genre = [...new Set(genre)];
   const selected_sort = filters.selectedSort;

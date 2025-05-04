@@ -24,8 +24,8 @@ const handleremove=(id)=>{
         >
           <div className="flex items-center space-x-4">
             <img
-              src={item.imageUrl}
-              alt={item.title}
+              src={item.imageURL}
+              alt={item.bookName}
               className="w-24 h-32 object-cover rounded"
               onClick={() => handleonclick(item.id)}
             />

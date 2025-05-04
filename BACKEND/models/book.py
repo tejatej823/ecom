@@ -2,7 +2,6 @@ from sqlalchemy import String, DateTime, Float, Integer, func
 from sqlalchemy.orm import mapped_column, Mapped
 from db import Base
 
-
 class Book(Base):
     __tablename__ = "books"
 

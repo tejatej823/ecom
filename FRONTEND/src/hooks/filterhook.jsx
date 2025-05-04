@@ -1,10 +1,9 @@
-import { useSelector } from "react-redux";
+import { useSelector} from "react-redux";
 import { useMemo } from "react";
-
-const useFilter = () => {
+const useFilter = (books) => {
   const filters = useSelector((state) => state.filter);
-  const books = useSelector((state) => state.books);
-  
+  console.log(books);
+
   const filteredBooks=useMemo(() => {
     let filtered = [...books];
     if (filters.selectedGenres.length > 0) {
@@ -14,7 +13,7 @@ const useFilter = () => {
     }
     if (filters.searchItem) {
       filtered = filtered.filter((book) =>
-        book.title.toLowerCase().includes(filters.searchItem.toLowerCase()) ||
+        book.bookName.toLowerCase().includes(filters.searchItem.toLowerCase()) ||
         book.author.toLowerCase().includes(filters.searchItem.toLowerCase())
       );
     }

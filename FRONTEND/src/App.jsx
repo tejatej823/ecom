@@ -12,7 +12,6 @@ import Profile from './pages/profile';
 import Bookdetails from './pages/bookdetails';
 import Cartpage from './pages/cart';
 import Signup from './pages/signup';
-import Admin from './Admin/forms'
 import { ToastContainer } from "react-toastify";
 function App() {
   return (
@@ -28,7 +27,6 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/books/:id" element={<Bookdetails />} />
           <Route path="/cart" element={<Cartpage />} />
-          <Route path="/admin" element={<Admin/>}/>
           <Route path="/signup" element={<Signup/>}/>
         </Routes>
       </Router>

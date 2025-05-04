@@ -122,3 +122,13 @@ def updateBook(id:int,
         return book
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"error: {str(e)}")
+
+@router.get("/{id}",status_code=status.HTTP_200_OK,response_model=bookResponse)
+def getBook(id:int,db:Session=Depends(get_db)):
+    try:
+        book=db.query(Book).filter(Book.id==id).first()
+        if book is None:
+            raise HTTPException(status_code=404, detail="Book not found")
+        return book
+    except Exception as e:
+        raise HTTPException(status_code=500,detail=f"error:{str(e)}")
