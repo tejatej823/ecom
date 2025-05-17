@@ -18,23 +18,23 @@ class bookCreate(BookBase):
 
 
 class bookUpdate(BookBase):
-    bookName: Optional[str] = None
-    author: Optional[str] = None
-    price: Optional[float] = None
-    rating: Optional[float] = None
-    description: Optional[str] = None
-    totalBooks: Optional[int] = None
-    genre: Optional[str] = None
-    imageURL:Optional[str]=None
+    bookName: str | None = None
+    author: str | None = None
+    price: float | None = None
+    rating: float | None = None
+    description: str | None = None
+    totalBooks: int | None = None
+    genre: str | None = None
+    imageURL: str | None = None
     
 class bookDelete(BookBase):
     id:int
 
 class bookResponse(BookBase):
     id: int
-    imageURL: Optional[str] = None
-    createdAt: datetime
-    updatedAt: Optional[datetime] = None
+    imageURL: str | None=None
+    createdAt: datetime 
+    updatedAt: datetime | None=None
 
     class Config:
         orm_mode = True

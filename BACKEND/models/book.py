@@ -4,7 +4,7 @@ from db import Base
 
 class Book(Base):
     __tablename__ = "books"
-
+    
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     bookName: Mapped[str] = mapped_column(String(30))
     author: Mapped[str] = mapped_column(String(30))
@@ -20,3 +20,4 @@ class Book(Base):
     updatedAt: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True), onupdate=func.now(), nullable=True
     )
+
